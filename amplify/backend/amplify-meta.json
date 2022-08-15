@@ -1,0 +1,76 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ostomateapp-dev-151936-authRole",
+      "UnauthRoleArn": "arn:aws:iam::421261816034:role/amplify-ostomateapp-dev-151936-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::421261816034:role/amplify-ostomateapp-dev-151936-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-ostomateapp-dev-151936-deployment",
+      "UnauthRoleName": "amplify-ostomateapp-dev-151936-unauthRole",
+      "StackName": "amplify-ostomateapp-dev-151936",
+      "StackId": "arn:aws:cloudformation:us-west-2:421261816034:stack/amplify-ostomateapp-dev-151936/593f6270-1ce8-11ed-a496-0201e2b1c49b",
+      "AmplifyAppId": "d1iy0y0ub3zw44"
+    }
+  },
+  "auth": {
+    "ostomateappdb1236b9": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL",
+          "PHONE_NUMBER"
+        ],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-ostomateapp-dev-151936-deployment/amplify-cfn-templates/auth/ostomateappdb1236b9-cloudformation-template.json",
+        "logicalId": "authostomateappdb1236b9"
+      },
+      "lastPushTimeStamp": "2022-08-15T22:24:45.754Z",
+      "output": {
+        "UserPoolId": "us-west-2_8BgXOulUW",
+        "AppClientIDWeb": "35q1q9p5c71mbpuosg49c4form",
+        "AppClientID": "7lm3i74dav301f5bglda3pl064",
+        "IdentityPoolId": "us-west-2:68a690c6-1eda-4a23-9ae3-ac1ff8d6c7b8",
+        "UserPoolArn": "arn:aws:cognito-idp:us-west-2:421261816034:userpool/us-west-2_8BgXOulUW",
+        "IdentityPoolName": "ostomateappdb1236b9_identitypool_db1236b9__dev",
+        "UserPoolName": "ostomateappdb1236b9_userpool_db1236b9"
+      },
+      "lastPushDirHash": "4+3HTuXxK684ANKuZREmignJHc8="
+    }
+  },
+  "analytics": {
+    "ostomateapp": {
+      "service": "Pinpoint",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-ostomateapp-dev-151936-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
+        "logicalId": "analyticsostomateapp"
+      },
+      "lastPushTimeStamp": "2022-08-15T22:24:45.754Z",
+      "output": {
+        "appName": "ostomateapp-dev",
+        "Region": "us-west-2",
+        "Id": "d3dbe7284bb04c199d31bfb8f7c87495"
+      },
+      "lastPushDirHash": "icO1fk7CoQ5Tx4IpI9b3v4gqb6Y="
+    }
+  }
+}

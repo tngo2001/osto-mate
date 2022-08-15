@@ -1,0 +1,21 @@
+{
+    "appName": "ostomateapp",
+    "roleName": "pinpointLambdaRoleb391f021",
+    "cloudformationPolicyName": "cloudformationPolicyb391f021",
+    "cloudWatchPolicyName": "cloudWatchPolicyb391f021",
+    "pinpointPolicyName": "pinpointPolicyb391f021",
+    "authPolicyName": "pinpoint_amplify_b391f021",
+    "unauthPolicyName": "pinpoint_amplify_b391f021",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}
