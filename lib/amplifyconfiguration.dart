@@ -5,7 +5,7 @@ const amplifyconfig = ''' {
         "plugins": {
             "awsPinpointAnalyticsPlugin": {
                 "pinpointAnalytics": {
-                    "appId": "d3dbe7284bb04c199d31bfb8f7c87495",
+                    "appId": "d43be96bbd574e53a611940c3b459ced",
                     "region": "us-west-2"
                 },
                 "pinpointTargeting": {
@@ -25,15 +25,15 @@ const amplifyconfig = ''' {
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "us-west-2:68a690c6-1eda-4a23-9ae3-ac1ff8d6c7b8",
+                            "PoolId": "us-west-2:bdb8e6e7-c8bf-42db-ae24-04c450414045",
                             "Region": "us-west-2"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "us-west-2_8BgXOulUW",
-                        "AppClientId": "7lm3i74dav301f5bglda3pl064",
+                        "PoolId": "us-west-2_vWKwgajaf",
+                        "AppClientId": "7id9o4tdf1u1usvdiaqolihguo",
                         "Region": "us-west-2"
                     }
                 },
@@ -42,8 +42,7 @@ const amplifyconfig = ''' {
                         "authenticationFlowType": "USER_SRP_AUTH",
                         "socialProviders": [],
                         "usernameAttributes": [
-                            "EMAIL",
-                            "PHONE_NUMBER"
+                            "EMAIL"
                         ],
                         "signupAttributes": [
                             "EMAIL"
@@ -63,7 +62,7 @@ const amplifyconfig = ''' {
                 },
                 "PinpointAnalytics": {
                     "Default": {
-                        "AppId": "d3dbe7284bb04c199d31bfb8f7c87495",
+                        "AppId": "d43be96bbd574e53a611940c3b459ced",
                         "Region": "us-west-2"
                     }
                 },

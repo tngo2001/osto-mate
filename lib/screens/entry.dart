@@ -5,6 +5,8 @@ import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:ostomate_app/amplifyconfiguration.dart';
 
 class EntryScreen extends StatefulWidget {
+  const EntryScreen({Key? key}) : super(key: key);
+
   @override
   _EntryScreenState createState() => _EntryScreenState();
 }
@@ -18,18 +20,19 @@ class _EntryScreenState extends State<EntryScreen> {
     _configureAmplify();
   }
 
-  Future<void> _configureAmplify() async {
+  void _configureAmplify() async {
     final auth = AmplifyAuthCognito();
     final analytics = AmplifyAnalyticsPinpoint();
     try {
-      await Amplify.addPlugins([auth, analytics]);
+      Amplify.addPlugins([auth, analytics]);
       await Amplify.configure(amplifyconfig);
+      setState(() {
+        _amplifyConfigured: true;
+      });
     } catch(e) {
       print('An error occurred while configuring Amplify: $e');
     }
-    setState(() {
-      _amplifyConfigured: true;
-    });
+
 
   }
 

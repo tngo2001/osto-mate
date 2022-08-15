@@ -1,11 +1,11 @@
 {
     "appName": "ostomateapp",
-    "roleName": "pinpointLambdaRoleb391f021",
-    "cloudformationPolicyName": "cloudformationPolicyb391f021",
-    "cloudWatchPolicyName": "cloudWatchPolicyb391f021",
-    "pinpointPolicyName": "pinpointPolicyb391f021",
-    "authPolicyName": "pinpoint_amplify_b391f021",
-    "unauthPolicyName": "pinpoint_amplify_b391f021",
+    "roleName": "pinpointLambdaRolefb5fe070",
+    "cloudformationPolicyName": "cloudformationPolicyfb5fe070",
+    "cloudWatchPolicyName": "cloudWatchPolicyfb5fe070",
+    "pinpointPolicyName": "pinpointPolicyfb5fe070",
+    "authPolicyName": "pinpoint_amplify_fb5fe070",
+    "unauthPolicyName": "pinpoint_amplify_fb5fe070",
     "authRoleName": {
         "Ref": "AuthRoleName"
     },
