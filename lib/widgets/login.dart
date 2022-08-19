@@ -9,6 +9,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  late SignupData _data;
   Future<String> _onLogin(BuildContext context, LoginData data) async {
     return '';
   }
@@ -31,6 +32,7 @@ class _LoginState extends State<Login> {
               data.additionalSignupData!["Last Name"]!,
         }),
       );
+      _data = data;
       return null;
     } on AuthException catch (e) {
       return '${e.message} Please try again.';
@@ -65,30 +67,43 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
-      title: 'Ostomate',
+      title: 'OSTO-MATE',
+      theme: LoginTheme(
+        primaryColor: Theme.of(context).primaryColor,
+        accentColor: Colors.lightBlue[200],
+        buttonTheme: LoginButtonTheme(
+          backgroundColor: Colors.lightBlue[300],
+          highlightColor: Colors.lightBlue[700],
+        ),
+        bodyStyle: Theme.of(context).textTheme.bodyText1,
+        titleStyle: Theme.of(context).textTheme.headline1,
+        footerTextStyle: Theme.of(context).textTheme.bodyText1,
+        buttonStyle: Theme.of(context).textTheme.bodyText1,
+        switchAuthTextColor:  Colors.black
+      ),
       onLogin: (LoginData data) => _onLogin(context, data),
       onRecoverPassword: (_) => Future.value(''),
       onSignup: (SignupData data) => _onSignup(context, data),
       additionalSignupFields: [
         UserFormField(
           keyName: "First Name",
-          icon: Icon(Icons.account_circle),
+          icon: const Icon(Icons.account_circle),
           fieldValidator: (value) =>
               value != null ? null : "Please enter a value",
         ),
         UserFormField(
             keyName: "Last Name",
-            icon: Icon(Icons.account_circle),
+            icon: const Icon(Icons.account_circle),
             fieldValidator: (value) =>
                 value != null ? null : "Please enter a value"),
         UserFormField(
             keyName: "Address",
-            icon: Icon(Icons.account_circle),
+            icon: const Icon(Icons.account_circle),
             fieldValidator: (value) =>
                 value != null ? null : "Please enter a value"),
         UserFormField(
             keyName: "Phone Number",
-            icon: Icon(Icons.account_circle),
+            icon: const Icon(Icons.account_circle),
             fieldValidator: (value) {
               var phoneRegExp = RegExp(
                   r'^[\+][0-9]{1,2}[\s]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$');
@@ -107,10 +122,12 @@ class _LoginState extends State<Login> {
         }
         return isValidPassword(value);
       },
-      theme: LoginTheme(
-        primaryColor: Theme.of(context).primaryColor,
-      ),
-      onSubmitAnimationCompleted: () {},
+      onSubmitAnimationCompleted: () {
+        Navigator.of(context).pushReplacementNamed(
+            '/confirm',
+            arguments: _data,
+        );
+      },
     );
   }
 }
