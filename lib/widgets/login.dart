@@ -1,20 +1,46 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:ostomate_app/utils/validators.dart';
 
-class Login extends StatefulWidget {
-  @override
-  _LoginState createState() => _LoginState();
+class Credentials {
+  String name;
+  String password;
+
+  Credentials(this.name, this.password);
 }
 
-class _LoginState extends State<Login> {
-  late SignupData _data;
-  Future<String> _onLogin(BuildContext context, LoginData data) async {
-    return '';
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
+  @override
+  LoginState createState() => LoginState();
+}
+
+class LoginState extends State<Login> {
+  late Credentials _data;
+  bool _isSignedIn = false;
+
+  Future<String?> _onLogin(LoginData data) async {
+    try {
+      _data = Credentials(data.name, data.password);
+      final res = await Amplify.Auth.signIn(
+        username: data.name,
+        password: data.password,
+      );
+
+      _isSignedIn = res.isSignedIn;
+      return null;
+    } on UserNotConfirmedException {
+      return null;
+    } on AuthException catch (e) {
+      return '${e.message} - ${e.recoverySuggestion}';
+    }
   }
 
-  Future<String?> _onSignup(BuildContext context, SignupData data) async {
+  Future<String?> _onSignup(SignupData data) async {
     try {
       await Amplify.Auth.signUp(
         username: data.name!,
@@ -32,90 +58,86 @@ class _LoginState extends State<Login> {
               data.additionalSignupData!["Last Name"]!,
         }),
       );
-      _data = data;
+      _data = Credentials(data.name!, data.password!);
       return null;
     } on AuthException catch (e) {
       return '${e.message} Please try again.';
     }
   }
 
-  String? isValidPassword(String pass) {
-    final meetsLength = RegExp(r'^[A-Za-z\d@$!%*#?&_[\]{}]{8,}$');
-    final hasNumber = RegExp(r'^(?=.*\d)[A-Za-z\d@$!%*#?&_[\]{}]{8,}$');
-    final hasUpperLower =
-        RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*#?&_[\]{}]{8,}$');
-    final hasSymbol = RegExp(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&_[\]{}])[A-Za-z\d@$!%*#?&_[\]{}]{8,}$');
-    if (pass.contains(" ")) {
-      return "Password cannot contain spaces";
+  Future<String?> _onRecoverPassword(String email) async {
+    try {
+      final res = await Amplify.Auth.resetPassword(username: email);
+
+      return null;
+    } on AuthException catch (e) {
+      return '${e.message} - ${e.recoverySuggestion}';
     }
-    if (!meetsLength.hasMatch(pass)) {
-      return "Password must be at least 8 characters long";
-    }
-    if (!hasNumber.hasMatch(pass)) {
-      return "Password must contain a number";
-    }
-    if (!hasUpperLower.hasMatch(pass)) {
-      return "Must contain an uppercase and lowercase character";
-    }
-    if (!hasSymbol.hasMatch(pass)) {
-      return "Password must contain a symbol";
-    }
-    return null;
   }
+
+  Future<void> signOut() async {
+    try {
+      Amplify.Auth.signOut();
+    } on AuthException catch (e) {
+      if (kDebugMode) {
+        print(e.message);
+      }
+    }
+  }
+
+  final List<UserFormField> _additionalSignupFields = [
+    UserFormField(
+      keyName: "First Name",
+      icon: const Icon(Icons.account_circle),
+      fieldValidator: (value) => value != null ? null : "Please enter a value",
+    ),
+    UserFormField(
+        keyName: "Last Name",
+        icon: const Icon(Icons.account_circle),
+        fieldValidator: (value) =>
+            value != null ? null : "Please enter a value"),
+    UserFormField(
+        keyName: "Address",
+        icon: const Icon(Icons.account_circle),
+        fieldValidator: (value) =>
+            value != null ? null : "Please enter a value"),
+    UserFormField(
+        keyName: "Phone Number",
+        icon: const Icon(Icons.account_circle),
+        fieldValidator: (value) {
+          var phoneRegExp = phoneNumberRegex;
+          if (value != null && !phoneRegExp.hasMatch(value)) {
+            return "Must be in format \"+1 (XXX) XXX-XXXX\"";
+          }
+          if (value == null) {
+            return "Please enter a value";
+          }
+          return null;
+        })
+  ];
+
 
   @override
   Widget build(BuildContext context) {
+    signOut();
     return FlutterLogin(
       title: 'OSTO-MATE',
       theme: LoginTheme(
-        primaryColor: Theme.of(context).primaryColor,
-        accentColor: Colors.lightBlue[200],
-        buttonTheme: LoginButtonTheme(
-          backgroundColor: Colors.lightBlue[300],
-          highlightColor: Colors.lightBlue[700],
-        ),
-        bodyStyle: Theme.of(context).textTheme.bodyText1,
-        titleStyle: Theme.of(context).textTheme.headline1,
-        footerTextStyle: Theme.of(context).textTheme.bodyText1,
-        buttonStyle: Theme.of(context).textTheme.bodyText1,
-        switchAuthTextColor:  Colors.black
-      ),
-      onLogin: (LoginData data) => _onLogin(context, data),
-      onRecoverPassword: (_) => Future.value(''),
-      onSignup: (SignupData data) => _onSignup(context, data),
-      additionalSignupFields: [
-        UserFormField(
-          keyName: "First Name",
-          icon: const Icon(Icons.account_circle),
-          fieldValidator: (value) =>
-              value != null ? null : "Please enter a value",
-        ),
-        UserFormField(
-            keyName: "Last Name",
-            icon: const Icon(Icons.account_circle),
-            fieldValidator: (value) =>
-                value != null ? null : "Please enter a value"),
-        UserFormField(
-            keyName: "Address",
-            icon: const Icon(Icons.account_circle),
-            fieldValidator: (value) =>
-                value != null ? null : "Please enter a value"),
-        UserFormField(
-            keyName: "Phone Number",
-            icon: const Icon(Icons.account_circle),
-            fieldValidator: (value) {
-              var phoneRegExp = RegExp(
-                  r'^[\+][0-9]{1,2}[\s]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$');
-              if (value != null && !phoneRegExp.hasMatch(value)) {
-                return "Must be in format \"+1 (XXX) XXX-XXXX\"";
-              }
-              if (value == null) {
-                return "Please enter a value";
-              }
-              return null;
-            })
-      ],
+          primaryColor: Theme.of(context).primaryColor,
+          accentColor: Theme.of(context).colorScheme.secondary,
+          buttonTheme: LoginButtonTheme(
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            highlightColor: Colors.lightBlue[700],
+          ),
+          bodyStyle: Theme.of(context).textTheme.bodyText1,
+          titleStyle: Theme.of(context).textTheme.headline1,
+          footerTextStyle: Theme.of(context).textTheme.bodyText1,
+          buttonStyle: Theme.of(context).textTheme.bodyText1,
+          switchAuthTextColor: Colors.black),
+      onLogin: (LoginData data) => _onLogin(data),
+      onRecoverPassword: (String email) => _onRecoverPassword(email),
+      onSignup: (SignupData data) => _onSignup(data),
+      additionalSignupFields: _additionalSignupFields,
       passwordValidator: (value) {
         if (value == null || value.isEmpty) {
           return "Please enter a password.";
@@ -124,8 +146,8 @@ class _LoginState extends State<Login> {
       },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacementNamed(
-            '/confirm',
-            arguments: _data,
+          _isSignedIn ? '/dashboard' : '/confirm',
+          arguments: _data,
         );
       },
     );

@@ -43,7 +43,7 @@ class _EntryScreenState extends State<EntryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _amplifyConfigured ? Login() : const CircularProgressIndicator(),
+        child: _amplifyConfigured ? const Login() : const CircularProgressIndicator(),
       ),
     );
   }
