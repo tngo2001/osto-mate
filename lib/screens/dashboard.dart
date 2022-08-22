@@ -13,7 +13,6 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    super.initState();
     Amplify.Auth.getCurrentUser().then((user) {
       setState(() {
         _user = user;
@@ -21,6 +20,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     }).catchError((e) {
       print(e.message);
     });
+    super.initState();
   }
 
   @override
@@ -30,18 +30,12 @@ class DashboardScreenState extends State<DashboardScreen> {
         title: Text('Dashboard'),
       ),
       body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (_user == null)
-            Text('Loading')
-          else ...[
-            Text('Hello'),
-            Text(_user.username),
-            Text(_user.userId),
-          ]
-        ],
-      )),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text('Hello'),
+          Text(_user.username),
+          Text(_user.userId),
+        ]),
+      ),
       /*
       bottomNavigationBar: BottomNavigationBar(
         items: [

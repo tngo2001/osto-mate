@@ -19,10 +19,9 @@ class _EntryScreenState extends State<EntryScreen> {
   @override
   void initState() {
     super.initState();
-    _configureAmplify();
   }
 
-  void _configureAmplify() async {
+  Future<void> _configureAmplify() async {
     final auth = AmplifyAuthCognito();
     final analytics = AmplifyAnalyticsPinpoint();
     try {
@@ -31,20 +30,36 @@ class _EntryScreenState extends State<EntryScreen> {
       setState(() {
         _amplifyConfigured = true;
       });
-    } catch(e) {
+    } catch (e) {
       print('An error occurred while configuring Amplify: $e');
     }
-
-
   }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _amplifyConfigured ? const Login() : const CircularProgressIndicator(),
-      ),
-    );
+        body: !Amplify.isConfigured ? FutureBuilder(
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if(snapshot.hasError) {
+                return Center (
+                  child: Text(
+                    '${snapshot.error} occurred while attempting to configure Amplify',
+                    style: const TextStyle(fontSize: 18),
+                  )
+                );
+              }
+              else {
+                return const Login();
+              }
+            }
+            return const Center(
+                child: CircularProgressIndicator()
+            );
+          },
+          future: _configureAmplify(),
+        )
+            : const Login());
   }
 }

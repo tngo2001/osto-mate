@@ -48,14 +48,14 @@ class LoginState extends State<Login> {
         options: CognitoSignUpOptions(userAttributes: {
           CognitoUserAttributeKey.email: data.name!,
           CognitoUserAttributeKey.address:
-              data.additionalSignupData!["Address"]!,
+          data.additionalSignupData!["Address"]!,
           CognitoUserAttributeKey.givenName:
-              data.additionalSignupData!["First Name"]!,
+          data.additionalSignupData!["First Name"]!,
           CognitoUserAttributeKey.phoneNumber: data
               .additionalSignupData!["Phone Number"]!
               .replaceAll(RegExp(r'[^0-9+]'), ''),
           CognitoUserAttributeKey.familyName:
-              data.additionalSignupData!["Last Name"]!,
+          data.additionalSignupData!["Last Name"]!,
         }),
       );
       _data = Credentials(data.name!, data.password!);
@@ -65,14 +65,20 @@ class LoginState extends State<Login> {
     }
   }
 
-  Future<String?> _onRecoverPassword(String email) async {
+  Future<String?> _onRecoverPassword(String email,
+      VoidCallback onSuccess) async {
     try {
       final res = await Amplify.Auth.resetPassword(username: email);
 
+      print(res);
+      if (res.nextStep.updateStep == "CONFIRM_RESET_PASSWORD_WITH_CODE") {
+        onSuccess.call();
+      }
       return null;
     } on AuthException catch (e) {
       return '${e.message} - ${e.recoverySuggestion}';
     }
+
   }
 
   Future<void> signOut() async {
@@ -95,12 +101,12 @@ class LoginState extends State<Login> {
         keyName: "Last Name",
         icon: const Icon(Icons.account_circle),
         fieldValidator: (value) =>
-            value != null ? null : "Please enter a value"),
+        value != null ? null : "Please enter a value"),
     UserFormField(
         keyName: "Address",
         icon: const Icon(Icons.account_circle),
         fieldValidator: (value) =>
-            value != null ? null : "Please enter a value"),
+        value != null ? null : "Please enter a value"),
     UserFormField(
         keyName: "Phone Number",
         icon: const Icon(Icons.account_circle),
@@ -123,25 +129,48 @@ class LoginState extends State<Login> {
     return FlutterLogin(
       title: 'OSTO-MATE',
       theme: LoginTheme(
-          primaryColor: Theme.of(context).primaryColor,
-          accentColor: Theme.of(context).colorScheme.secondary,
+          primaryColor: Theme
+              .of(context)
+              .primaryColor,
+          accentColor: Theme
+              .of(context)
+              .colorScheme
+              .secondary,
           buttonTheme: LoginButtonTheme(
-            backgroundColor: Theme.of(context).colorScheme.secondary,
+            backgroundColor: Theme
+                .of(context)
+                .colorScheme
+                .secondary,
             highlightColor: Colors.lightBlue[700],
           ),
-          bodyStyle: Theme.of(context).textTheme.bodyText1,
-          titleStyle: Theme.of(context).textTheme.headline1,
-          footerTextStyle: Theme.of(context).textTheme.bodyText1,
-          buttonStyle: Theme.of(context).textTheme.bodyText1,
+          bodyStyle: Theme
+              .of(context)
+              .textTheme
+              .bodyText1,
+          titleStyle: Theme
+              .of(context)
+              .textTheme
+              .headline1,
+          footerTextStyle: Theme
+              .of(context)
+              .textTheme
+              .bodyText1,
+          buttonStyle: Theme
+              .of(context)
+              .textTheme
+              .bodyText1,
           switchAuthTextColor: Colors.black),
       onLogin: (LoginData data) => _onLogin(data),
-      onRecoverPassword: (String email) => _onRecoverPassword(email),
+      onRecoverPassword: (String email) {
+        _onRecoverPassword(email, () {
+          Navigator.of(context).pushReplacementNamed(
+              '/confirm-reset',
+              arguments: Credentials(email, ''));
+        });
+      },
       onSignup: (SignupData data) => _onSignup(data),
       additionalSignupFields: _additionalSignupFields,
       passwordValidator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Please enter a password.";
-        }
         return isValidPassword(value);
       },
       onSubmitAnimationCompleted: () {
