@@ -5,6 +5,8 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:ostomate_app/utils/validators.dart';
 
+import '../utils/themes.dart';
+
 class Credentials {
   String name;
   String password;
@@ -30,7 +32,6 @@ class LoginState extends State<Login> {
         username: data.name,
         password: data.password,
       );
-
       _isSignedIn = res.isSignedIn;
       return null;
     } on UserNotConfirmedException {
@@ -123,43 +124,19 @@ class LoginState extends State<Login> {
   ];
 
 
+  final LoginMessages _loginMessages = LoginMessages(
+    additionalSignUpFormDescription: "Please provide the following information",
+    recoverPasswordDescription: "A verification code will be sent to this email.",
+    recoverPasswordIntro: "Reset Password"
+  );
+
   @override
   Widget build(BuildContext context) {
     signOut();
     return FlutterLogin(
       title: 'OSTO-MATE',
-      theme: LoginTheme(
-          primaryColor: Theme
-              .of(context)
-              .primaryColor,
-          accentColor: Theme
-              .of(context)
-              .colorScheme
-              .secondary,
-          buttonTheme: LoginButtonTheme(
-            backgroundColor: Theme
-                .of(context)
-                .colorScheme
-                .secondary,
-            highlightColor: Colors.lightBlue[700],
-          ),
-          bodyStyle: Theme
-              .of(context)
-              .textTheme
-              .bodyText1,
-          titleStyle: Theme
-              .of(context)
-              .textTheme
-              .headline1,
-          footerTextStyle: Theme
-              .of(context)
-              .textTheme
-              .bodyText1,
-          buttonStyle: Theme
-              .of(context)
-              .textTheme
-              .bodyText1,
-          switchAuthTextColor: Colors.black),
+      theme: Themes.loginTheme,
+      logo: const AssetImage('assets/ostomate-logo.png'),
       onLogin: (LoginData data) => _onLogin(data),
       onRecoverPassword: (String email) {
         _onRecoverPassword(email, () {
@@ -179,6 +156,7 @@ class LoginState extends State<Login> {
           arguments: _data,
         );
       },
+      messages: _loginMessages,
     );
   }
 }

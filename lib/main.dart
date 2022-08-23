@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'OSTO-MATE',
         debugShowCheckedModeBanner: false,
-        theme: ostomateTheme,
+        theme: Themes.ostomateTheme,
         initialRoute: '/',
         onGenerateRoute: RouteGenerator.generateRoute,
     );

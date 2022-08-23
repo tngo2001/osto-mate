@@ -68,6 +68,9 @@ flutter:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
+  assets:
+    - assets/
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -104,3 +107,6 @@ flutter:
         - asset: fonts/RobotoCondensed-Regular.ttf
         - asset: fonts/RobotoCondensed-Bold.ttf
         - asset: fonts/RobotoCondensed-Italic.ttf
+    - family: Bebas Neue
+      fonts:
+        - asset: fonts/BebasNeue-Regular.ttf
