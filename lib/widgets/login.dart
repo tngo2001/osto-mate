@@ -1,5 +1,6 @@
 /*
-  This widget is the login flow
+  This widget generates the login flow using the flutter_login library
+  https://pub.dev/packages/flutter_login
  */
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,6 @@ class Login extends StatefulWidget {
   @override
   LoginState createState() => LoginState();
 }
-
 
 class LoginState extends State<Login> {
   late Credentials _data;
@@ -60,7 +60,6 @@ class LoginState extends State<Login> {
   // Signup callback when user submits signup info
   Future<String?> _onSignup(SignupData data) async {
     try {
-
       // Call to Amplify to attempt signup
       await Amplify.Auth.signUp(
         username: data.name!,
@@ -68,14 +67,16 @@ class LoginState extends State<Login> {
         options: CognitoSignUpOptions(userAttributes: {
           CognitoUserAttributeKey.email: data.name!,
           CognitoUserAttributeKey.address:
-          data.additionalSignupData!["Address"]!,
+              data.additionalSignupData!["Address"]!,
           CognitoUserAttributeKey.givenName:
-          data.additionalSignupData!["First Name"]!,
+              data.additionalSignupData!["First Name"]!,
           CognitoUserAttributeKey.phoneNumber: data
               .additionalSignupData!["Phone Number"]!
               .replaceAll(RegExp(r'[^0-9+]'), ''),
           CognitoUserAttributeKey.familyName:
-          data.additionalSignupData!["Last Name"]!,
+              data.additionalSignupData!["Last Name"]!,
+          CognitoUserAttributeKey.birthdate:
+              data.additionalSignupData!["Birthdate"]!
         }),
       );
       _data = Credentials(data.name!, data.password!);
@@ -86,8 +87,8 @@ class LoginState extends State<Login> {
   }
 
   // Callback for when password recovery info is submitted
-  Future<String?> _onRecoverPassword(String email,
-      VoidCallback onSuccess) async {
+  Future<String?> _onRecoverPassword(
+      String email, VoidCallback onSuccess) async {
     try {
       final res = await Amplify.Auth.resetPassword(username: email);
 
@@ -99,7 +100,6 @@ class LoginState extends State<Login> {
     } on AuthException catch (e) {
       return '${e.message} - ${e.recoverySuggestion}';
     }
-
   }
 
   // Call to Amplify to signout a user
@@ -124,12 +124,12 @@ class LoginState extends State<Login> {
         keyName: "Last Name",
         icon: const Icon(Icons.account_circle),
         fieldValidator: (value) =>
-        value != null ? null : "Please enter a value"),
+            value != null ? null : "Please enter a value"),
     UserFormField(
         keyName: "Address",
         icon: const Icon(Icons.account_circle),
         fieldValidator: (value) =>
-        value != null ? null : "Please enter a value"),
+            value != null ? null : "Please enter a value"),
     UserFormField(
         keyName: "Phone Number",
         icon: const Icon(Icons.account_circle),
@@ -142,19 +142,30 @@ class LoginState extends State<Login> {
             return "Please enter a value";
           }
           return null;
-        })
+        }),
+
+    // Must be in YYYY-MM-DD
+    // There is an issue here; for the sake of the user it would be better if
+    // the date input could be picked from a date wheel, but because of the
+    // limitations of this login library this is not possible.
+    // Potential solution: Fork the repo and edit it to handle more input
+    // options, and use that version instead
+    const UserFormField(
+      keyName: "Birthdate",
+      icon: Icon(Icons.account_circle),
+    )
   ];
 
   // Customizing some of the text in the login flow
   final LoginMessages _loginMessages = LoginMessages(
-    additionalSignUpFormDescription: "Please provide the following information",
-    recoverPasswordDescription: "A verification code will be sent to this email.",
-    recoverPasswordIntro: "Reset Password"
-  );
+      additionalSignUpFormDescription:
+          "Please provide the following information",
+      recoverPasswordDescription:
+          "A verification code will be sent to this email.",
+      recoverPasswordIntro: "Reset Password");
 
   @override
   Widget build(BuildContext context) {
-
     // Currently, the app signs out the user every time they close and reopen it
     // This is for testing but might also be appropriate as a security feature.
     signOut();
@@ -165,8 +176,7 @@ class LoginState extends State<Login> {
       onLogin: (LoginData data) => _onLogin(data),
       onRecoverPassword: (String email) {
         _onRecoverPassword(email, () {
-          Navigator.of(context).pushReplacementNamed(
-              '/confirm-reset',
+          Navigator.of(context).pushReplacementNamed('/confirm-reset',
               arguments: Credentials(email, ''));
         });
       },

@@ -11,10 +11,11 @@
           "EMAIL"
         ],
         "signupAttributes": [
-          "ADDRESS",
           "EMAIL",
+          "BIRTHDATE",
           "FAMILY_NAME",
           "GIVEN_NAME",
+          "ADDRESS",
           "PHONE_NUMBER"
         ],
         "passwordProtectionSettings": {
@@ -26,9 +27,9 @@
             "REQUIRES_UPPERCASE"
           ]
         },
-        "mfaConfiguration": "OFF",
+        "mfaConfiguration": "OPTIONAL",
         "mfaTypes": [
-          "SMS"
+          "TOTP"
         ],
         "verificationMechanisms": [
           "EMAIL"

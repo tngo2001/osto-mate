@@ -25,15 +25,15 @@ const amplifyconfig = ''' {
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "us-west-2:05260de0-b6ae-4b9a-a004-30e730639b3e",
+                            "PoolId": "us-west-2:06e2b78c-0149-48cb-8db0-35a4225b022b",
                             "Region": "us-west-2"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "us-west-2_rGg2bRA19",
-                        "AppClientId": "7nfaho0qegggqpjs59qvh8oel6",
+                        "PoolId": "us-west-2_SL3Vci53X",
+                        "AppClientId": "3olil4409nbsp16r8e32qv0ce6",
                         "Region": "us-west-2"
                     }
                 },
@@ -45,10 +45,11 @@ const amplifyconfig = ''' {
                             "EMAIL"
                         ],
                         "signupAttributes": [
-                            "ADDRESS",
                             "EMAIL",
+                            "BIRTHDATE",
                             "FAMILY_NAME",
                             "GIVEN_NAME",
+                            "ADDRESS",
                             "PHONE_NUMBER"
                         ],
                         "passwordProtectionSettings": {
@@ -60,9 +61,9 @@ const amplifyconfig = ''' {
                                 "REQUIRES_UPPERCASE"
                             ]
                         },
-                        "mfaConfiguration": "OFF",
+                        "mfaConfiguration": "OPTIONAL",
                         "mfaTypes": [
-                            "SMS"
+                            "TOTP"
                         ],
                         "verificationMechanisms": [
                             "EMAIL"

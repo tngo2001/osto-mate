@@ -24,10 +24,11 @@
           "EMAIL"
         ],
         "signupAttributes": [
-          "ADDRESS",
           "EMAIL",
+          "BIRTHDATE",
           "FAMILY_NAME",
           "GIVEN_NAME",
+          "ADDRESS",
           "PHONE_NUMBER"
         ],
         "passwordProtectionSettings": {
@@ -39,9 +40,9 @@
             "REQUIRES_UPPERCASE"
           ]
         },
-        "mfaConfiguration": "OFF",
+        "mfaConfiguration": "OPTIONAL",
         "mfaTypes": [
-          "SMS"
+          "TOTP"
         ],
         "verificationMechanisms": [
           "EMAIL"
@@ -51,18 +52,18 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-ostomateapp-dev-160928-deployment/amplify-cfn-templates/auth/ostomateapp-cloudformation-template.json",
         "logicalId": "authostomateapp"
       },
-      "lastPushTimeStamp": "2022-08-16T20:12:51.846Z",
+      "lastPushTimeStamp": "2022-08-24T20:07:20.086Z",
       "output": {
-        "CreatedSNSRole": "arn:aws:iam::421261816034:role/sns23515cfe160928-dev",
-        "UserPoolId": "us-west-2_rGg2bRA19",
-        "AppClientIDWeb": "341bbtbf6bki573fpj9ll7cj7t",
-        "AppClientID": "7nfaho0qegggqpjs59qvh8oel6",
-        "IdentityPoolId": "us-west-2:05260de0-b6ae-4b9a-a004-30e730639b3e",
-        "UserPoolArn": "arn:aws:cognito-idp:us-west-2:421261816034:userpool/us-west-2_rGg2bRA19",
+        "CreatedSNSRole": "arn:aws:iam::421261816034:role/sns897bff3c160928-dev",
+        "UserPoolId": "us-west-2_SL3Vci53X",
+        "AppClientIDWeb": "1b2smq0app149kprmijo5mv5pc",
+        "AppClientID": "3olil4409nbsp16r8e32qv0ce6",
+        "IdentityPoolId": "us-west-2:06e2b78c-0149-48cb-8db0-35a4225b022b",
+        "UserPoolArn": "arn:aws:cognito-idp:us-west-2:421261816034:userpool/us-west-2_SL3Vci53X",
         "IdentityPoolName": "testAuthIdentityPool__dev",
         "UserPoolName": "ostomateapp"
       },
-      "lastPushDirHash": "r7vAqVbaD7ilIPyVWzyg8NUVOEQ="
+      "lastPushDirHash": "H0i+PPG3b7ehk0f2F4ViT51LDtA="
     }
   },
   "analytics": {
@@ -74,7 +75,7 @@
         "Region": "us-west-2",
         "Id": "d43be96bbd574e53a611940c3b459ced"
       },
-      "lastPushTimeStamp": "2022-08-16T20:12:51.791Z",
+      "lastPushTimeStamp": "2022-08-24T20:07:20.033Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-ostomateapp-dev-160928-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
         "logicalId": "analyticsostomateapp"
