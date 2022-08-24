@@ -1,3 +1,7 @@
+/*
+  Represents the user dashboard upon signin.
+ */
+
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
@@ -23,6 +27,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     super.initState();
   }
 
+  // WIP; need to create navbar
   @override
   Widget build(BuildContext context) {
     return Scaffold(

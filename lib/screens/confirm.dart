@@ -1,6 +1,9 @@
+/*
+  Generates the page to confirm account with verification code
+ */
+
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:flutter_login/flutter_login.dart';
 import '../widgets/login.dart';
 
 class ConfirmScreen extends StatefulWidget {
@@ -32,6 +35,7 @@ class ConfirmScreenState extends State<ConfirmScreen> {
     super.dispose();
   }
 
+  // Callback to make a call to Amplify to confirm signup
   Future<void> _verifyCode(BuildContext context, Credentials data, String code,
       VoidCallback onSuccess) async {
     try {
@@ -56,6 +60,7 @@ class ConfirmScreenState extends State<ConfirmScreen> {
     }
   }
 
+  // Callback if user requests a new code
   Future<void> _resendCode(
       BuildContext context, Credentials data, VoidCallback onSuccess) async {
     try {

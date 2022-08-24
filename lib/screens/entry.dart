@@ -1,10 +1,13 @@
+/*
+  Entry page where Amplify is configured
+ */
+
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:ostomate_app/amplifyconfiguration.dart';
 import '../widgets/login.dart';
-
 
 class EntryScreen extends StatefulWidget {
   const EntryScreen({Key? key}) : super(key: key);
@@ -35,31 +38,31 @@ class _EntryScreenState extends State<EntryScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: !Amplify.isConfigured ? FutureBuilder(
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if(snapshot.hasError) {
-                return Center (
-                  child: Text(
-                    '${snapshot.error} occurred while attempting to configure Amplify',
-                    style: const TextStyle(fontSize: 18),
-                  )
-                );
-              }
-              else {
-                return const Login();
-              }
-            }
-            return const Center(
-                child: CircularProgressIndicator()
-            );
-          },
-          future: _configureAmplify(),
-        )
-            : const Login());
+        // If Amplify is configured, goes to Login screen. Otherwise, shows a
+        // progress indicator while configuration takes place
+        body: Amplify.isConfigured
+            ? const Login()
+            : FutureBuilder(
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        // Temporary error display if configuration fails.
+                        // Should be restyled later and with retry option
+                          child: Text(
+                        '${snapshot.error} occurred while attempting to configure Amplify',
+                        style: const TextStyle(fontSize: 18),
+                      ));
+                    } else {
+                      return const Login();
+                    }
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+                future: _configureAmplify(),
+              ));
   }
 }

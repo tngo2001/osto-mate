@@ -1,3 +1,5 @@
+// Main to start app
+
 import 'package:flutter/material.dart';
 import 'package:ostomate_app/route_generator.dart';
 import 'package:ostomate_app/utils/themes.dart';
