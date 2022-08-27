@@ -22,6 +22,9 @@ class _EntryScreenState extends State<EntryScreen> {
   @override
   void initState() {
     super.initState();
+    if (!Amplify.isConfigured) {
+      _configureAmplify();
+    }
   }
 
   Future<void> _configureAmplify() async {
@@ -41,28 +44,7 @@ class _EntryScreenState extends State<EntryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // If Amplify is configured, goes to Login screen. Otherwise, shows a
-        // progress indicator while configuration takes place
-        body: Amplify.isConfigured
-            ? const Login()
-            : FutureBuilder(
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        // Temporary error display if configuration fails.
-                        // Should be restyled later and with retry option
-                          child: Text(
-                        '${snapshot.error} occurred while attempting to configure Amplify',
-                        style: const TextStyle(fontSize: 18),
-                      ));
-                    } else {
-                      return const Login();
-                    }
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                },
-                future: _configureAmplify(),
-              ));
+      body: _amplifyConfigured ? Login() : CircularProgressIndicator(),
+    );
   }
 }
