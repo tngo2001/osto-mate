@@ -20,7 +20,6 @@ class TextStyles {
 }
 
 class Themes {
-
 // MaterialApp theme
   static ThemeData ostomateTheme = ThemeData(
       primaryColor: const Color(0xffE5E5E5),
@@ -53,20 +52,19 @@ class Themes {
 
 // Login flow theme
   static LoginTheme loginTheme = LoginTheme(
-    primaryColor: const Color(0xffE5E5E5),
-    accentColor: const Color(0xff85E4F9),
-    buttonTheme: const LoginButtonTheme(
-      backgroundColor: Color(0xff85E4F9),
-      highlightColor: Color(0xff85daf9),
-    ),
-    bodyStyle: TextStyles.body1,
-    titleStyle: TextStyles.heading1,
-    buttonStyle: TextStyles.body1,
-    switchAuthTextColor: Colors.black,
-    headerMargin: 40.0,
-    cardTopPosition: 400,
-    inputTheme: inputDecorationTheme
-  );
+      primaryColor: const Color(0xffE5E5E5),
+      accentColor: const Color(0xff85E4F9),
+      buttonTheme: const LoginButtonTheme(
+        backgroundColor: Color(0xff85E4F9),
+        highlightColor: Color(0xff85daf9),
+      ),
+      bodyStyle: TextStyles.body1,
+      titleStyle: TextStyles.heading1,
+      buttonStyle: TextStyles.body1,
+      switchAuthTextColor: Colors.black,
+      logoWidth: 0.5,
+      cardInitialHeight: 100,
+      inputTheme: inputDecorationTheme);
 
   static InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
     filled: true,
