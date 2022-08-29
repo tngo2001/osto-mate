@@ -22,49 +22,30 @@ class TextStyles {
 class Themes {
 // MaterialApp theme
   static ThemeData ostomateTheme = ThemeData(
-      primaryColor: const Color(0xffE5E5E5),
-      fontFamily: 'Roboto',
-      textTheme: TextTheme(
-          headline1: TextStyle(
-            fontSize: 66.0,
-            color: Colors.red[400],
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Roboto Condensed',
-            //height: 79,
-          ),
-          headline2: const TextStyle(
-            fontSize: 54,
-            color: Colors.black,
-            //height: 63
-          ),
-          bodyText1: const TextStyle(
-            fontSize: 16,
-            color: Colors.black,
-            //height: 21
-          ),
-          bodyText2: const TextStyle(
-            fontSize: 16,
-            color: Colors.white,
-            //height: 21
-          )),
-      colorScheme:
-          ColorScheme.fromSwatch().copyWith(secondary: Colors.lightBlue[200]));
+      colorScheme: const ColorScheme(
+        background: Color(0xffE5E5E5),
+        onBackground: Color(0xff2f2f2f),
+        brightness: Brightness.light,
+        error: Colors.redAccent,
+        onError: Colors.white,
+        primary: Color(0xff85E4F9),
+        onPrimary: Color(0xff2f2f2f),
+        surface: Colors.white,
+        onSurface: Color(0xff000000),
+        secondary: Color(0xff85E4F9),
+        onSecondary: Color(0xff2f2f2f),
+      ),
+      backgroundColor: Color.fromARGB(255, 241, 241, 241),
+      brightness: Brightness.light,
+      textTheme: const TextTheme(
+          bodySmall: TextStyle(
+              fontFamily: "Roboto",
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              fontStyle: FontStyle.normal,
+              color: Color(0xff2f2f2f))));
 
 // Login flow theme
-  static LoginTheme loginTheme = LoginTheme(
-      primaryColor: const Color(0xffE5E5E5),
-      accentColor: const Color(0xff85E4F9),
-      buttonTheme: const LoginButtonTheme(
-        backgroundColor: Color(0xff85E4F9),
-        highlightColor: Color(0xff85daf9),
-      ),
-      bodyStyle: TextStyles.body1,
-      titleStyle: TextStyles.heading1,
-      buttonStyle: TextStyles.body1,
-      switchAuthTextColor: Colors.black,
-      logoWidth: 0.5,
-      cardInitialHeight: 100,
-      inputTheme: inputDecorationTheme);
 
   static InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
     filled: true,
