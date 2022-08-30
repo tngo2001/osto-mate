@@ -51,7 +51,9 @@ class _EntryScreenState extends State<EntryScreen> {
     context.read<Scale>().setHeightScale(height / mockupHeight);
     context.read<Scale>().setWidthScale(width / mockupWidth);
     return Scaffold(
-      body: _amplifyConfigured ? LoginScreen() : CircularProgressIndicator(),
+      body: _amplifyConfigured
+          ? const LoginScreen()
+          : const CircularProgressIndicator(),
     );
   }
 }

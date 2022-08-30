@@ -11,6 +11,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePasswordInput = true;
+  bool _forgotPasswordTapped = false;
+  bool _loginButtonEnabled = false;
+  bool _signUpTapped = false;
 
   Widget _buildEmailTF() {
     return Column(
@@ -21,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           height: 60.0,
           child: Material(
-            elevation: 5.0,
+            elevation: 3.0,
             borderRadius: BorderRadius.circular(20),
             shadowColor: Colors.black,
             child: TextFormField(
@@ -54,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           height: 60.0,
           child: Material(
-            elevation: 5.0,
+            elevation: 3.0,
             borderRadius: BorderRadius.circular(20),
             shadowColor: Colors.black,
             child: TextFormField(
@@ -89,6 +92,95 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _buildForgotPassword() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: InkWell(
+        onTapDown: (down) {
+          setState(() {
+            _forgotPasswordTapped = true;
+          });
+        },
+        onTapUp: (up) {
+          setState(() {
+            _forgotPasswordTapped = false;
+          });
+        },
+        child: Text(
+          "Forgot Password?",
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontFamily: "Roboto",
+              fontSize: 16,
+              decoration: _forgotPasswordTapped
+                  ? TextDecoration.underline
+                  : TextDecoration.none),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoginButton() {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Theme.of(context).colorScheme.primary;
+      }
+      return Theme.of(context).colorScheme.primary;
+    }
+
+    return ElevatedButton(
+      onPressed: () {},
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith(getColor),
+          shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+          minimumSize: MaterialStatePropertyAll(
+              Size(110 * Provider.of<Scale>(context).widthScale, 32))),
+      child: Text(
+        "Login",
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
+    );
+  }
+
+  Widget _buildSignupText() {
+    return (Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          "Don't have an account?",
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        SizedBox(width: 5),
+        InkWell(
+          onTapDown: (down) {
+            setState(() {
+              _signUpTapped = true;
+            });
+          },
+          onTapUp: (up) {
+            setState(() {
+              _signUpTapped = false;
+            });
+          },
+          child: Text("Sign Up",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontFamily: "Roboto",
+                  fontSize: 16,
+                  decoration: _signUpTapped
+                      ? TextDecoration.underline
+                      : TextDecoration.none)),
+        )
+      ],
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final widthScale = Provider.of<Scale>(context).widthScale;
@@ -103,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
             width: double.infinity,
             color: Theme.of(context).backgroundColor,
           ),
-          Container(
+          SizedBox(
             height: double.infinity,
             width: double.infinity,
             child: SafeArea(
@@ -111,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
                         horizontal: 50.0 * widthScale,
-                        vertical: 150.0 * heightScale),
+                        vertical: 100.0 * heightScale),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -138,8 +230,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 20 * heightScale),
                         _buildEmailTF(),
-                        SizedBox(height: 20),
-                        _buildPasswordTF()
+                        SizedBox(height: 20 * heightScale),
+                        _buildPasswordTF(),
+                        _buildForgotPassword(),
+                        SizedBox(height: 20 * heightScale),
+                        _buildLoginButton(),
+                        SizedBox(height: 32 * heightScale),
+                        _buildSignupText()
                       ],
                     ))),
           )
