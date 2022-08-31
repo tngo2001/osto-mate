@@ -103,6 +103,8 @@ flutter:
         - asset: fonts/Roboto-Regular.ttf
         - asset: fonts/Roboto-Bold.ttf
         - asset: fonts/Roboto-Italic.ttf
+        - asset: fonts/Roboto-Medium.ttf
+        - asset: fonts/Roboto-MediumItalic.ttf
     - family: Roboto Condensed
       fonts:
         - asset: fonts/RobotoCondensed-Regular.ttf

@@ -26,6 +26,7 @@ class _EntryScreenState extends State<EntryScreen> {
   void initState() {
     super.initState();
     if (!Amplify.isConfigured) {
+      print("amp not configured?");
       _configureAmplify();
     }
   }
@@ -39,6 +40,8 @@ class _EntryScreenState extends State<EntryScreen> {
       setState(() {
         _amplifyConfigured = true;
       });
+    } on AmplifyAlreadyConfiguredException {
+      print('amplify already configured');
     } catch (e) {
       print('An error occurred while configuring Amplify: $e');
     }

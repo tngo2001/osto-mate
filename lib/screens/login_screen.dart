@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ostomate_app/providers/scale_provider.dart';
+import 'package:ostomate_app/utils/validators.dart';
 import 'package:provider/provider.dart';
+import 'package:ostomate_app/widgets/custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,45 +16,12 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _forgotPasswordTapped = false;
   bool _loginButtonEnabled = false;
   bool _signUpTapped = false;
-
-  Widget _buildEmailTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 4 * Provider.of<Scale>(context).heightScale),
-        Container(
-          alignment: Alignment.centerLeft,
-          height: 60.0,
-          child: Material(
-            elevation: 3.0,
-            borderRadius: BorderRadius.circular(20),
-            shadowColor: Colors.black,
-            child: TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              style: Theme.of(context).textTheme.bodySmall,
-              decoration: InputDecoration(
-                labelText: "Email",
-                labelStyle: Theme.of(context).textTheme.bodySmall,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide.none),
-                fillColor: Colors.white,
-                filled: true,
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  final _email = TextEditingController();
 
   Widget _buildPasswordTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(height: 4 * Provider.of<Scale>(context).heightScale),
         Container(
           alignment: Alignment.centerLeft,
           height: 60.0,
@@ -62,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
             shadowColor: Colors.black,
             child: TextFormField(
               obscureText: _obscurePasswordInput,
-              style: Theme.of(context).textTheme.bodySmall,
+              style: Theme.of(context).textTheme.bodyLarge,
               decoration: InputDecoration(
                 suffixIcon: GestureDetector(
                   onTap: () {
@@ -76,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 suffixIconColor: const Color(0xff979797),
                 labelText: "Password",
-                labelStyle: Theme.of(context).textTheme.bodySmall,
+                labelStyle: Theme.of(context).textTheme.bodyLarge,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide.none),
@@ -143,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Size(110 * Provider.of<Scale>(context).widthScale, 32))),
       child: Text(
         "Login",
-        style: Theme.of(context).textTheme.bodySmall,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }
@@ -154,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Text(
           "Don't have an account?",
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         SizedBox(width: 5),
         InkWell(
@@ -168,6 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _signUpTapped = false;
             });
           },
+          onTap: () => Navigator.of(context).pushNamed("/signup"),
           child: Text("Sign Up",
               style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
@@ -185,6 +155,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final widthScale = Provider.of<Scale>(context).widthScale;
     final heightScale = Provider.of<Scale>(context).heightScale;
+
+    bool _submitted = false;
     return Scaffold(
         body: GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -229,8 +201,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: 56 * widthScale),
                         ),
                         SizedBox(height: 20 * heightScale),
-                        _buildEmailTF(),
-                        SizedBox(height: 20 * heightScale),
+                        CustomTextFormField(
+                          controller: _email,
+                          hintText: "Email",
+                          hintTextStyle: Theme.of(context).textTheme.bodyLarge!,
+                          inputType: TextInputType.emailAddress,
+                          heightScale: heightScale,
+                          validator: (email) => Validators.isValidEmail(email),
+                        ),
                         _buildPasswordTF(),
                         _buildForgotPassword(),
                         SizedBox(height: 20 * heightScale),

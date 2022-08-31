@@ -3,7 +3,6 @@
  */
 class Validators {
   static String? isValidPassword(String? pass) {
-
     // Password must be at least 8 characters
     final meetsLength = RegExp(r'^[A-Za-z\d@$!%*#?&_[\]{}]{8,}$');
 
@@ -50,6 +49,34 @@ class Validators {
     return null;
   }
 
-  static final phoneNumberRegex = RegExp(
+  static String? isValidEmail(String? email) {
+    if (email == null || email.isEmpty) {
+      return "Cannot be empty";
+    } else if (!emailRegex.hasMatch(email)) {
+      return "Please enter a valid email address";
+    }
+    return null;
+  }
+
+  static String? isValidPhone(String? phoneNumber) {
+    if (phoneNumber == null) {
+      return "Please enter a value";
+    }
+    if (!phoneRegex.hasMatch(phoneNumber)) {
+      return "Must be in format \"+1 (XXX) XXX-XXXX\"";
+    }
+    return null;
+  }
+
+  static String? isNotNull(String? input) {
+    if (input == null || input.isEmpty) {
+      return "Cannot be empty";
+    }
+    return null;
+  }
+
+  static final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+  static final phoneRegex = RegExp(
       r'^[\+][0-9]{1,2}[\s]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$');
 }
