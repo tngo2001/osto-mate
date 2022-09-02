@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ostomate_app/providers/scale_provider.dart';
 import 'package:ostomate_app/utils/validators.dart';
+import 'package:ostomate_app/widgets/password_form_field.dart';
 import 'package:provider/provider.dart';
 import 'package:ostomate_app/widgets/custom_text_form_field.dart';
 
@@ -17,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _loginButtonEnabled = false;
   bool _signUpTapped = false;
   final _email = TextEditingController();
+  final _password = TextEditingController();
 
   Widget _buildPasswordTF() {
     return Column(
@@ -207,9 +209,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintTextStyle: Theme.of(context).textTheme.bodyLarge!,
                           inputType: TextInputType.emailAddress,
                           heightScale: heightScale,
+                          widthScale: widthScale,
                           validator: (email) => Validators.isValidEmail(email),
                         ),
-                        _buildPasswordTF(),
+                        //_buildPasswordTF(),
+                        PasswordFormField(
+                          controller: _password,
+                          hintTextStyle: Theme.of(context).textTheme.bodyLarge!,
+                          heightScale: heightScale,
+                          widthScale: widthScale,
+                          obscurePassword: _obscurePasswordInput,
+                          onTap: () {
+                            setState(() {
+                              _obscurePasswordInput = !_obscurePasswordInput;
+                            });
+                          },
+                          validator: (pass) => Validators.isValidPassword(pass),
+                        ),
                         _buildForgotPassword(),
                         SizedBox(height: 20 * heightScale),
                         _buildLoginButton(),

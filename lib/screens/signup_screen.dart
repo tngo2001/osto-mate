@@ -68,7 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildFields(double heightScale) {
+  Widget _buildFields(double heightScale, double widthScale) {
     return Column(
         children: inputFields.map((InputFieldInfo info) {
       return CustomTextFormField(
@@ -76,6 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
         hintText: info.hintText,
         hintTextStyle: Theme.of(context).textTheme.bodyLarge!,
         heightScale: heightScale,
+        widthScale: widthScale,
         inputFormatters: info.inputFormatters,
         validator: info.validator,
         inputType: info.inputType,
@@ -134,7 +135,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              _buildFields(heightScale),
+                              _buildFields(heightScale, widthScale),
                               _buildSubmitButton("Submit", _submit),
                             ],
                           ),

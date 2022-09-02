@@ -1,11 +1,9 @@
-import 'package:control_style/decorated_input_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
+class PasswordFormField extends StatelessWidget {
+  const PasswordFormField(
       {Key? key,
-      required this.hintText,
       required this.controller,
       this.inputFormatters,
       this.validator,
@@ -13,10 +11,11 @@ class CustomTextFormField extends StatelessWidget {
       required this.hintTextStyle,
       required this.heightScale,
       required this.widthScale,
+      required this.obscurePassword,
+      required this.onTap,
       this.onChanged})
       : super(key: key);
 
-  final String hintText;
   final TextEditingController controller;
   final TextStyle hintTextStyle;
   final TextInputType? inputType;
@@ -25,6 +24,8 @@ class CustomTextFormField extends StatelessWidget {
   final double heightScale;
   final double widthScale;
   final void Function(String?)? onChanged;
+  final bool obscurePassword;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +40,26 @@ class CustomTextFormField extends StatelessWidget {
                 keyboardType: inputType,
                 style: hintTextStyle,
                 controller: controller,
+                obscureText: obscurePassword,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
-                  errorStyle: (TextStyle(height: 0.5)),
+                  suffixIcon: GestureDetector(
+                      onTap: onTap,
+                      child: Icon(
+                          obscurePassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.grey.shade700)),
+                  labelText: "Password",
+                  errorStyle: (TextStyle(height: 1)),
                   helperText: ' ',
-                  helperStyle: TextStyle(height: 0.5),
+                  helperStyle: TextStyle(height: 1),
                   isDense: false,
-                  labelText: hintText,
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 ),
               ),
-            ),
-            SizedBox(height: 8)
+            )
           ]);
     });
   }
