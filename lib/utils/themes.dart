@@ -4,7 +4,6 @@
 
 import 'package:control_style/decorated_input_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login/flutter_login.dart';
 
 // Text styles
 class TextStyles {
@@ -127,6 +126,14 @@ class Themes {
         fontWeight: FontWeight.w400,
       ),
     ),
+    snackBarTheme: const SnackBarThemeData(
+        actionTextColor: Colors.white,
+        backgroundColor: Color(0xff85E4F9),
+        contentTextStyle: TextStyle(
+          fontFamily: "Roboto",
+          color: Colors.white,
+          fontSize: 16,
+        )),
     textButtonTheme: const TextButtonThemeData(
         style: ButtonStyle(
             textStyle: MaterialStatePropertyAll(TextStyle(

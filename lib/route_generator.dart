@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ostomate_app/screens/confirm.dart';
 import 'package:ostomate_app/screens/dashboard.dart';
 import 'package:ostomate_app/screens/entry.dart';
 import 'package:ostomate_app/screens/signup_screen.dart';
+import 'package:ostomate_app/utils/signup_data.dart';
 
 // This class is where all route logic is handled when a route is pushed to the
 // navigator.
@@ -27,6 +29,13 @@ class RouteGenerator {
         return PageRouteBuilder(
             pageBuilder: (_, __, ____) => const SignupScreen(),
             transitionsBuilder: (_, __, ____, child) => child);
+      // Confirm account page
+      case '/confirm':
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ____) =>
+                ConfirmScreen(data: args as SignupData),
+            transitionsBuilder: (_, __, ____, child) => child);
+
       default:
         return _errorRoute();
     }

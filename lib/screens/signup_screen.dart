@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ostomate_app/api/api_service.dart';
 import 'package:ostomate_app/providers/scale_provider.dart';
 import 'package:ostomate_app/utils/input_field_info.dart';
+import 'package:ostomate_app/utils/signup_data.dart';
+import 'package:ostomate_app/utils/snackbars.dart';
 import 'package:ostomate_app/utils/validators.dart';
 import 'package:ostomate_app/widgets/password_form_field.dart';
 import 'package:provider/provider.dart';
@@ -100,6 +103,20 @@ class _SignupScreenState extends State<SignupScreen> {
         return;
       }
       formKey.currentState!.save();
+      final signupData = SignupData(
+          email: _fieldControllers['email']!.text,
+          givenName: _fieldControllers['givenName']!.text,
+          address: _fieldControllers['address']!.text,
+          birthdate: _fieldControllers['birthdate']!.text,
+          familyName: _fieldControllers['familyName']!.text,
+          password: _passwordController.text,
+          phone: _fieldControllers['phone']!.text);
+      AuthService.signupUser(signupData, () {
+        Navigator.of(context)
+            .pushReplacementNamed('/confirm', arguments: signupData);
+      }, (message) {
+        Snackbars.showErrorSnackbar(context, message);
+      });
     }
 
     return Scaffold(
