@@ -10,7 +10,7 @@ class CustomTextFormField extends StatelessWidget {
       this.inputFormatters,
       this.validator,
       this.inputType,
-      required this.hintTextStyle,
+      this.hintTextStyle,
       required this.heightScale,
       required this.widthScale,
       this.onChanged})
@@ -18,7 +18,7 @@ class CustomTextFormField extends StatelessWidget {
 
   final String hintText;
   final TextEditingController controller;
-  final TextStyle hintTextStyle;
+  final TextStyle? hintTextStyle;
   final TextInputType? inputType;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
@@ -41,9 +41,9 @@ class CustomTextFormField extends StatelessWidget {
                 controller: controller,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 decoration: InputDecoration(
-                  errorStyle: (TextStyle(height: 0.5)),
+                  errorStyle: const TextStyle(height: 0.5),
                   helperText: ' ',
-                  helperStyle: TextStyle(height: 0.5),
+                  helperStyle: const TextStyle(height: 0.5),
                   isDense: false,
                   labelText: hintText,
                   contentPadding:
@@ -51,7 +51,7 @@ class CustomTextFormField extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 8)
+            const SizedBox(height: 8)
           ]);
     });
   }

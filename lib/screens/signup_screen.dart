@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ostomate_app/providers/scale_provider.dart';
 import 'package:ostomate_app/utils/input_field_info.dart';
+import 'package:ostomate_app/utils/validators.dart';
+import 'package:ostomate_app/widgets/password_form_field.dart';
 import 'package:provider/provider.dart';
 import 'package:ostomate_app/widgets/custom_text_form_field.dart';
-import 'package:ostomate_app/utils/validators.dart';
 import 'dart:collection';
 import 'package:ostomate_app/utils/signup_input_fields.dart';
+import '../widgets/password_form.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -16,25 +17,28 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  late final Map<String, TextEditingController> _nameControllers;
-
+  late final Map<String, TextEditingController> _fieldControllers;
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  bool _obscurePassword = true;
   bool _isEnabled = false;
 
   @override
   void initState() {
     super.initState();
-    _nameControllers = HashMap<String, TextEditingController>.fromIterable(
+    _fieldControllers = HashMap<String, TextEditingController>.fromIterable(
         inputFields,
         key: (formFields) => formFields.keyName,
         value: (formFields) => TextEditingController());
-    for (var value in _nameControllers.values) {
+    for (var value in _fieldControllers.values) {
       value.addListener(() {});
     }
   }
 
   @override
   void dispose() {
-    _nameControllers.forEach((key, value) {
+    _fieldControllers.forEach((key, value) {
       value.dispose();
     });
     super.dispose();
@@ -72,7 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return Column(
         children: inputFields.map((InputFieldInfo info) {
       return CustomTextFormField(
-        controller: _nameControllers[info.keyName]!,
+        controller: _fieldControllers[info.keyName]!,
         hintText: info.hintText,
         hintTextStyle: Theme.of(context).textTheme.bodyLarge!,
         heightScale: heightScale,
@@ -91,7 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final heightScale = Provider.of<Scale>(context).heightScale;
 
     void _submit() {
-      //FocusScope.of(context).requestFocus(FocusNode());
+      FocusScope.of(context).requestFocus(FocusNode());
       if (!formKey.currentState!.validate()) {
         return;
       }
@@ -136,6 +140,20 @@ class _SignupScreenState extends State<SignupScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               _buildFields(heightScale, widthScale),
+                              PasswordForm(
+                                passwordController: _passwordController,
+                                confirmController: _confirmPasswordController,
+                                heightScale: heightScale,
+                                widthScale: widthScale,
+                                obscurePassword: _obscurePassword,
+                                validator: (pass) =>
+                                    Validators.isValidPassword(pass),
+                                onTap: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                              ),
                               _buildSubmitButton("Submit", _submit),
                             ],
                           ),

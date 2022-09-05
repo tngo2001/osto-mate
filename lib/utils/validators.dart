@@ -2,19 +2,22 @@
   Contains the logic for validating signin/signup inputs
  */
 class Validators {
+  // Allowed symbols: ~`!@#$%^&*()_-+={[}]|\:;"'<,>.?/
   static String? isValidPassword(String? pass) {
     // Password must be at least 8 characters
-    final meetsLength = RegExp(r'^[A-Za-z\d@$()!%*#?&_[\]{}]{8,}$');
+    final meetsLength =
+        RegExp(r'''^[A-Za-z\d~`!@#$%^&*()_\-+={[}\]|\:;"\'<.>.?\/]{8,}$''');
 
     // Password must contain a number
-    final hasNumber = RegExp(r'^(?=.*\d)[A-Za-z\d@$()!%*#?&_[\]{}]{8,}$');
+    final hasNumber = RegExp(
+        r'''^(?=.*\d)[A-Za-z\d~`!@#$%^&*()_\-+={[}\]|\:;"\'<,>.?\/]{8,}$''');
 
     final hasUpperLower = RegExp(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!()%*#?&_[\]{}]{8,}$');
+        r'''^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d~`!@#$%^&*()_\-+={[}\]|\:;"\'<,>.?\/]{8,}$''');
 
     // Valid symbols currently include '@$!%*#?&_[]{}'
     final hasSymbol = RegExp(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[()@$!%*#?&_[\]{}])[A-Za-z\d@$!%*()#?&_[\]{}]{8,}$');
+        r'''^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[~`!@#$%^&*\(\)_\-+={\[}\]|\:;"\'<,>.?\/])[A-Za-z\d~`!@#$%^&*()_\-+={[}\]|\:;"\'<,>.?\/]{8,}$''');
     if (pass == null || pass.isEmpty) {
       return "Please enter a password.";
     }

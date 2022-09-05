@@ -215,7 +215,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         //_buildPasswordTF(),
                         PasswordFormField(
                           controller: _password,
-                          hintTextStyle: Theme.of(context).textTheme.bodyLarge!,
                           heightScale: heightScale,
                           widthScale: widthScale,
                           obscurePassword: _obscurePasswordInput,
@@ -224,7 +223,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               _obscurePasswordInput = !_obscurePasswordInput;
                             });
                           },
-                          validator: (pass) => Validators.isValidPassword(pass),
                         ),
                         _buildForgotPassword(),
                         SizedBox(height: 20 * heightScale),
