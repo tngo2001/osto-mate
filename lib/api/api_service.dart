@@ -28,7 +28,7 @@ class AuthService {
     }
   }
 
-  // Callback to make a call to Amplify to confirm signup
+  // Make a call to Amplify to confirm signup
   static Future<void> verifyCode(SignupData data, String code,
       void Function() onSuccess, void Function(String) showError) async {
     try {
