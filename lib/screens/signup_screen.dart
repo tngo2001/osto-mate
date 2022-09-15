@@ -134,7 +134,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ],
         ),
         body: GestureDetector(
-          //onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Stack(
             children: <Widget>[
               Container(

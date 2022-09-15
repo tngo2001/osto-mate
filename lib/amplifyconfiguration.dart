@@ -91,7 +91,7 @@ const amplifyconfig = ''' {
                     "endpointType": "REST",
                     "endpoint": "https://ktumzdr6qk.execute-api.us-west-2.amazonaws.com/dev",
                     "region": "us-west-2",
-                    "authorizationType": "AWS_IAM"
+                    "authorizationType": "NONE"
                 }
             }
         }

@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:ostomate_app/api/api_service.dart';
 import 'package:ostomate_app/utils/snackbars.dart';
+import 'package:ostomate_app/utils/validators.dart';
+import 'package:ostomate_app/widgets/custom_text_form_field.dart';
 import '../utils/signup_data.dart';
+import 'package:provider/provider.dart';
+import 'package:ostomate_app/providers/scale_provider.dart';
 
 class ConfirmScreen extends StatefulWidget {
   final SignupData data;
@@ -39,85 +43,90 @@ class ConfirmScreenState extends State<ConfirmScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final widthScale = Provider.of<Scale>(context).widthScale;
+    final heightScale = Provider.of<Scale>(context).heightScale;
+
+    Widget _buildSubmitButton(String label, void Function() onPressed) {
+      Color getColor(Set<MaterialState> states) {
+        const Set<MaterialState> interactiveStates = <MaterialState>{
+          MaterialState.pressed,
+          MaterialState.hovered,
+          MaterialState.focused,
+        };
+        if (states.any(interactiveStates.contains)) {
+          return Theme.of(context).colorScheme.primary;
+        }
+        return Theme.of(context).colorScheme.primary;
+      }
+
+      return ElevatedButton(
+        onPressed: onPressed,
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.resolveWith(getColor),
+            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30))),
+            minimumSize: MaterialStatePropertyAll(
+                Size(110 * Provider.of<Scale>(context).widthScale, 32))),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      );
+    }
+
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Center(
-        child: SafeArea(
-          minimum: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Card(
-                elevation: 12,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                margin: const EdgeInsets.all(30),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
+        appBar: AppBar(
+          title: const Text("Verify"),
+          titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: 0,
+          automaticallyImplyLeading: false,
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Stack(
+            children: <Widget>[
+              Container(
+                height: double.infinity,
+                width: double.infinity,
+                color: Theme.of(context).backgroundColor,
+              ),
+              SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: SafeArea(
+                    child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 50.0 * widthScale,
+                      vertical: 20.0 * heightScale),
                   child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      TextField(
-                        controller: _controller,
-                        decoration: const InputDecoration(
-                          filled: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 4.0),
-                          prefixIcon: Icon(Icons.lock),
-                          labelText: 'Enter confirmation code',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(40)),
-                          ),
-                        ),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CustomTextFormField(
+                          controller: _controller,
+                          hintText: "Enter confirmation code",
+                          validator: (code) =>
+                              Validators.isValidConfirmCode(code),
+                          heightScale: heightScale,
+                          widthScale: widthScale),
+                      _buildSubmitButton(
+                        "Submit",
+                        () => AuthService.verifyCode(
+                            widget.data, _controller.text, () {
+                          Navigator.of(context)
+                              .pushReplacementNamed("/dashboard");
+                        }, (message) {
+                          Snackbars.showErrorSnackbar(context, message);
+                        }),
                       ),
-                      const SizedBox(height: 10),
-                      MaterialButton(
-                        onPressed: _isEnabled
-                            ? () {
-                                AuthService.verifyCode(
-                                    widget.data, _controller.text, () {
-                                  Navigator.pushReplacementNamed(
-                                      context, '/dashboard');
-                                }, (message) {
-                                  Snackbars.showErrorSnackbar(context, message);
-                                });
-                              }
-                            : null,
-                        elevation: 4,
-                        disabledColor: Theme.of(context).colorScheme.secondary,
-                        color: Colors.lightBlue[500],
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        child: const Text(
-                          'VERIFY',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          AuthService.resendCode(widget.data, () {
-                            Snackbars.showSuccessSnackbar(
-                                context, "Confirmation code has been resent.");
-                          }, (message) {
-                            Snackbars.showErrorSnackbar(context, message);
-                          });
-                        },
-                        child: const Text(
-                          'Resend code',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      )
                     ],
                   ),
-                ),
-              ),
+                )),
+              )
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

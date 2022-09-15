@@ -5,20 +5,6 @@
 import 'package:control_style/decorated_input_border.dart';
 import 'package:flutter/material.dart';
 
-// Text styles
-class TextStyles {
-  static const TextStyle heading1 = TextStyle(
-      fontFamily: "Bebas Neue",
-      fontWeight: FontWeight.w400,
-      fontSize: 56,
-      color: Color(0xffFF4647));
-  static const TextStyle body1 = TextStyle(
-      fontFamily: "Roboto",
-      fontWeight: FontWeight.w400,
-      fontSize: 15,
-      color: Colors.black);
-}
-
 class Themes {
 // MaterialApp theme
   static ThemeData ostomateTheme = ThemeData(
