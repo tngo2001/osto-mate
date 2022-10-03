@@ -4,6 +4,10 @@ import 'package:ostomate_app/utils/validators.dart';
 import 'package:ostomate_app/widgets/password_form_field.dart';
 import 'package:provider/provider.dart';
 import 'package:ostomate_app/widgets/custom_text_form_field.dart';
+import 'package:ostomate_app/api/api_service.dart';
+
+import '../utils/signup_data.dart';
+import '../utils/snackbars.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -91,6 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+ 
+
   Widget _buildLoginButton() {
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -159,6 +165,25 @@ class _LoginScreenState extends State<LoginScreen> {
     final heightScale = Provider.of<Scale>(context).heightScale;
 
     bool _submitted = false;
+
+    void _submit() {
+      FocusScope.of(context).requestFocus(FocusNode());
+      final signupData = SignupData(
+          email: _email.text,
+          password: _password.text,
+      );
+      AuthService.loginUser(signupData, () {
+        Navigator.of(context)
+            .pushReplacementNamed('/dashboard');
+      }, (message) {
+        Snackbars.showErrorSnackbar(context, message);
+      },
+      () {
+        Navigator.of(context).pushReplacementNamed('/verify', arguments: signupData)
+      }
+      );
+    }
+
     return Scaffold(
         body: GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
