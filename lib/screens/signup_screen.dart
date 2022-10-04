@@ -112,6 +112,8 @@ class _SignupScreenState extends State<SignupScreen> {
           password: _passwordController.text,
           phone: _fieldControllers['phone']!.text);
       AuthService.signupUser(signupData, () {
+        Snackbars.showSnackbar(context, "Verification code sent!",
+            Theme.of(context).colorScheme.primary);
         Navigator.of(context)
             .pushReplacementNamed('/confirm', arguments: signupData);
       }, (message) {

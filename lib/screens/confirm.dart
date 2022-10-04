@@ -24,6 +24,7 @@ class ConfirmScreen extends StatefulWidget {
 class ConfirmScreenState extends State<ConfirmScreen> {
   final _controller = TextEditingController();
   bool _isEnabled = false;
+  bool _resendCodeTapped = false;
 
   @override
   void initState() {
@@ -41,38 +42,72 @@ class ConfirmScreenState extends State<ConfirmScreen> {
     super.dispose();
   }
 
+  Widget _buildForgotPassword() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: InkWell(
+        onTap: AuthService.resendCode(data, () {
+          Snackbars.showSuccessSnackbar(
+              context, "Code resent!", Theme.of(context).backgroundColor);
+        }, (s) {
+          Snackbars.showErrorSnackbar(context, s);
+        }),
+        onTapDown: (down) {
+          setState(() {
+            _resendCodeTapped = true;
+          });
+        },
+        onTapUp: (up) {
+          setState(() {
+            _resendCodeTapped = false;
+          });
+        },
+        child: Text(
+          "Resend Code",
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontFamily: "Roboto",
+              fontSize: 16,
+              decoration: _resendCodeTapped
+                  ? TextDecoration.underline
+                  : TextDecoration.none),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubmitButton(String label, void Function() onPressed) {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Theme.of(context).colorScheme.primary;
+      }
+      return Theme.of(context).colorScheme.primary;
+    }
+
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith(getColor),
+          shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+          minimumSize: MaterialStatePropertyAll(
+              Size(110 * Provider.of<Scale>(context).widthScale, 32))),
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final widthScale = Provider.of<Scale>(context).widthScale;
     final heightScale = Provider.of<Scale>(context).heightScale;
-
-    Widget _buildSubmitButton(String label, void Function() onPressed) {
-      Color getColor(Set<MaterialState> states) {
-        const Set<MaterialState> interactiveStates = <MaterialState>{
-          MaterialState.pressed,
-          MaterialState.hovered,
-          MaterialState.focused,
-        };
-        if (states.any(interactiveStates.contains)) {
-          return Theme.of(context).colorScheme.primary;
-        }
-        return Theme.of(context).colorScheme.primary;
-      }
-
-      return ElevatedButton(
-        onPressed: onPressed,
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith(getColor),
-            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30))),
-            minimumSize: MaterialStatePropertyAll(
-                Size(110 * Provider.of<Scale>(context).widthScale, 32))),
-        child: Text(
-          label,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      );
-    }
 
     return Scaffold(
         appBar: AppBar(

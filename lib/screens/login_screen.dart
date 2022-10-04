@@ -95,9 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
- 
-
-  Widget _buildLoginButton() {
+  Widget _buildLoginButton(void Function() onPressed) {
     Color getColor(Set<MaterialState> states) {
       const Set<MaterialState> interactiveStates = <MaterialState>{
         MaterialState.pressed,
@@ -111,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith(getColor),
           shape: MaterialStatePropertyAll(
@@ -169,19 +167,19 @@ class _LoginScreenState extends State<LoginScreen> {
     void _submit() {
       FocusScope.of(context).requestFocus(FocusNode());
       final signupData = SignupData(
-          email: _email.text,
-          password: _password.text,
+        email: _email.text,
+        password: _password.text,
       );
       AuthService.loginUser(signupData, () {
-        Navigator.of(context)
-            .pushReplacementNamed('/dashboard');
+        Navigator.of(context).pushReplacementNamed('/dashboard');
       }, (message) {
         Snackbars.showErrorSnackbar(context, message);
-      },
-      () {
-        Navigator.of(context).pushReplacementNamed('/verify', arguments: signupData)
-      }
-      );
+      }, () {
+        Snackbars.showSnackbar(
+            context, "User unverified!", Theme.of(context).colorScheme.primary);
+        Navigator.of(context)
+            .pushReplacementNamed('/confirm', arguments: signupData);
+      });
     }
 
     return Scaffold(
@@ -251,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         _buildForgotPassword(),
                         SizedBox(height: 20 * heightScale),
-                        _buildLoginButton(),
+                        _buildLoginButton(_submit),
                         SizedBox(height: 32 * heightScale),
                         _buildSignupText()
                       ],
