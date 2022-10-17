@@ -75,4 +75,11 @@ class AuthService {
       showError(e.message);
     }
   }
+  /*
+  static Future<void> resetPassword() async {
+    try {
+      final result = Amplify.Auth.resetPassword
+    }
+  }
+  */
 }

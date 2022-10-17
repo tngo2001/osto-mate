@@ -42,16 +42,17 @@ class ConfirmScreenState extends State<ConfirmScreen> {
     super.dispose();
   }
 
-  Widget _buildForgotPassword() {
+  Widget _buildResendCode() {
     return Align(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.center,
       child: InkWell(
-        onTap: AuthService.resendCode(data, () {
-          Snackbars.showSuccessSnackbar(
-              context, "Code resent!", Theme.of(context).backgroundColor);
-        }, (s) {
-          Snackbars.showErrorSnackbar(context, s);
-        }),
+        onTap: () {
+          AuthService.resendCode(widget.data, () {
+            Snackbars.showSuccessSnackbar(context, "Code resent!");
+          }, (s) {
+            Snackbars.showErrorSnackbar(context, s);
+          });
+        },
         onTapDown: (down) {
           setState(() {
             _resendCodeTapped = true;
@@ -156,6 +157,7 @@ class ConfirmScreenState extends State<ConfirmScreen> {
                           Snackbars.showErrorSnackbar(context, message);
                         }),
                       ),
+                      _buildResendCode()
                     ],
                   ),
                 )),
