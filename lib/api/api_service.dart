@@ -50,13 +50,7 @@ class AuthService {
       );
 
       if (res.isSignUpComplete) {
-        // Login user
-        final user = await Amplify.Auth.signIn(
-            username: data.email, password: data.password);
-
-        if (user.isSignedIn) {
-          onSuccess.call();
-        }
+        onSuccess.call();
       }
     } on CodeMismatchException catch (e) {
       showError(e.message);

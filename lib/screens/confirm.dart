@@ -116,7 +116,6 @@ class ConfirmScreenState extends State<ConfirmScreen> {
           titleTextStyle: Theme.of(context).textTheme.headlineSmall,
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0,
-          automaticallyImplyLeading: false,
         ),
         backgroundColor: Theme.of(context).primaryColor,
         body: GestureDetector(
@@ -151,8 +150,9 @@ class ConfirmScreenState extends State<ConfirmScreen> {
                         "Submit",
                         () => AuthService.verifyCode(
                             widget.data, _controller.text, () {
-                          Navigator.of(context)
-                              .pushReplacementNamed("/dashboard");
+                          Snackbars.showSuccessSnackbar(
+                              context, "User Verified!");
+                          Navigator.of(context).pop();
                         }, (message) {
                           Snackbars.showErrorSnackbar(context, message);
                         }),

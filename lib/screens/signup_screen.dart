@@ -115,7 +115,7 @@ class _SignupScreenState extends State<SignupScreen> {
         Snackbars.showSnackbar(context, "Verification code sent!",
             Theme.of(context).colorScheme.primary);
         Navigator.of(context)
-            .pushReplacementNamed('/confirm', arguments: signupData);
+            .popAndPushNamed('/confirm', arguments: signupData);
       }, (message) {
         Snackbars.showErrorSnackbar(context, message);
       });

@@ -13,17 +13,8 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
-  late AuthUser _user;
-
   @override
   void initState() {
-    Amplify.Auth.getCurrentUser().then((user) {
-      setState(() {
-        _user = user;
-      });
-    }).catchError((e) {
-      print(e.message);
-    });
     super.initState();
   }
 
@@ -37,8 +28,6 @@ class DashboardScreenState extends State<DashboardScreen> {
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text('Hello'),
-          Text(_user.username),
-          Text(_user.userId),
         ]),
       ),
       /*

@@ -177,8 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }, () {
         Snackbars.showSnackbar(
             context, "User unverified!", Theme.of(context).colorScheme.primary);
-        Navigator.of(context)
-            .pushReplacementNamed('/confirm', arguments: signupData);
+        Navigator.of(context).pushNamed('/confirm', arguments: signupData);
       });
     }
 
