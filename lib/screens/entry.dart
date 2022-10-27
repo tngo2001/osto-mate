@@ -44,6 +44,14 @@ class _EntryScreenState extends State<EntryScreen> {
     }
   }
 
+  Future<void> signOutCurrentUser() async {
+    try {
+      await Amplify.Auth.signOut();
+    } on AuthException catch (e) {
+      print(e.message);
+    }
+  }
+
   Future<bool> _onTestApi(bool ampConfig) async {
     if (!ampConfig) {
       print("Amplify config failed");
@@ -92,6 +100,8 @@ class _EntryScreenState extends State<EntryScreen> {
         }
         final success = snapshot.data!;
         if (success) {
+          signOutCurrentUser();
+
           return const LoginScreen();
         } else {
           return Scaffold(backgroundColor: Colors.redAccent);

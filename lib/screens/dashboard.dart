@@ -13,17 +13,30 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardScreenState extends State<DashboardScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  int _selectedIndex = 0;
 
   // WIP; need to create navbar
   @override
   Widget build(BuildContext context) {
+    TextStyle optionStyle = Theme.of(context).textTheme.bodyMedium!;
+    List<Widget> _widgetOptions = <Widget>[
+      Text('Index 0: Home', style: optionStyle),
+      Text('Index 1: Scan', style: optionStyle),
+      Text('Index 2: Help', style: optionStyle),
+    ];
+
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text('Dashboard'),
+        backgroundColor: Theme.of(context).backgroundColor,
+        title: Text("Welcome, John"),
+        elevation: 0,
       ),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
