@@ -48,3 +48,11 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
+pubspec.yaml
+.vscode/launch.json
+.gitignore
+amplify/team-provider-info.json
+amplify/#current-cloud-backend/amplify-meta.json
+.gitignore
+amplify/backend/backend-config.json
+amplify/backend/api/ostomaterest/cli-inputs.json
