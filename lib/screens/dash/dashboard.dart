@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/scale_provider.dart';
+import '../../providers/scale_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -19,25 +19,37 @@ class DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
 
   Widget _cardButton(BuildContext context, double heightScale,
-      double widthScale, Icon icon, String text) {
-    return SizedBox(
-      width: 317 * widthScale,
-      height: 86 * heightScale,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-              border: Border.all(
-                  width: 1.0, color: Theme.of(context).colorScheme.primary),
-              borderRadius: BorderRadius.circular(4)),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(children: [
-              icon,
-              SizedBox(width: 20 * widthScale),
-              Text(text, style: Theme.of(context).textTheme.bodyMedium)
-            ]),
+      double widthScale, Icon icon, String text, String routeName) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(routeName);
+      },
+      behavior: HitTestBehavior.deferToChild,
+      child: SizedBox(
+        width: 317 * widthScale,
+        height: 86 * heightScale,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                border: Border.all(
+                    width: 1.0, color: Theme.of(context).colorScheme.primary),
+                borderRadius: BorderRadius.circular(4)),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(children: [
+                icon,
+                SizedBox(width: 20 * widthScale),
+                Text(
+                  text,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontSize: 16),
+                )
+              ]),
+            ),
           ),
         ),
       ),
@@ -87,17 +99,17 @@ class DashboardScreenState extends State<DashboardScreen> {
     final heightScale = Provider.of<Scale>(context).heightScale;
     List<Widget> _cardButtons1 = <Widget>[
       _cardButton(context, heightScale, widthScale,
-          Icon(Icons.shopping_cart, size: 40), "Make a Purchase"),
+          Icon(Icons.shopping_cart, size: 40), "Make a Purchase", "/"),
       SizedBox(height: 10 * heightScale),
       _cardButton(context, heightScale, widthScale,
-          Icon(Icons.history, size: 40), "My Scan History")
+          Icon(Icons.history, size: 40), "My Scan History", "/")
     ];
     List<Widget> _cardButtons2 = <Widget>[
       _cardButton(context, heightScale, widthScale,
-          Icon(Icons.feedback_outlined, size: 40), "Feedback"),
+          Icon(Icons.feedback_outlined, size: 40), "Feedback", "/"),
       SizedBox(height: 10 * heightScale),
       _cardButton(context, heightScale, widthScale,
-          Icon(Icons.settings_outlined, size: 40), "Settings")
+          Icon(Icons.settings_outlined, size: 40), "Settings", "/settings")
     ];
 
     List<Widget> _widgetOptions = <Widget>[

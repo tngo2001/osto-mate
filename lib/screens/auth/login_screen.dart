@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:ostomate_app/widgets/custom_text_form_field.dart';
 import 'package:ostomate_app/api/api_service.dart';
 
-import '../utils/signup_data.dart';
-import '../utils/snackbars.dart';
+import '../../utils/signup_data.dart';
+import '../../utils/snackbars.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

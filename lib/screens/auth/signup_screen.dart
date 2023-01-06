@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:ostomate_app/widgets/custom_text_form_field.dart';
 import 'dart:collection';
 import 'package:ostomate_app/utils/signup_input_fields.dart';
-import '../widgets/password_form.dart';
+import '../../widgets/password_form.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

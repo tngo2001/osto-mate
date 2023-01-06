@@ -10,7 +10,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:ostomate_app/amplifyconfiguration.dart';
-import 'package:ostomate_app/screens/login_screen.dart';
+import 'package:ostomate_app/screens/auth/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:ostomate_app/providers/scale_provider.dart';
 import 'package:ostomate_app/constants.dart';
